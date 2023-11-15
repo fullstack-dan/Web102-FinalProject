@@ -85,32 +85,42 @@ function Post({ thisPost, feedPreview }) {
     updateComment();
   };
 
+  const PostDiv = (post) => {
+    return (
+      <div className="post">
+        <div className="user-info">
+          <img src="/src/assets/char_one_head.png" alt="" />
+          <div className="user-text-info">
+            <h3 className="user-name">{post.author}</h3>
+            <p className="post-date">{getDate(post.created_at)}</p>
+          </div>
+        </div>
+        <div className="post-text-info">
+          <h2 className="post-title">{post.title}</h2>
+          <p className="post-content">{displayContent}</p>
+        </div>
+        <div className="likes">
+          <span>{post.likes}</span>
+          <div className="upvote" onClick={handlePostUpvote}>
+            ♡
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div
       className={feedPreview ? "post-preview post-container" : "post-container"}
     >
-      <Link to={`/post/${post.id}`}>
-        <div className="post">
-          <div className="user-info">
-            <img src="/src/assets/char_one_head.png" alt="" />
-            <div className="user-text-info">
-              <h3 className="user-name">{post.author}</h3>
-              <p className="post-date">{getDate(post.created_at)}</p>
-            </div>
-          </div>
-          <div className="post-text-info">
-            <h2 className="post-title">{post.title}</h2>
-            <p className="post-content">{displayContent}</p>
-          </div>
-          <div className="likes">
-            <span>{post.likes}</span>
-            <div className="upvote" onClick={handlePostUpvote}>
-              ♡
-            </div>
-          </div>
-        </div>
-        {!feedPreview && <p className="add-comment">Add a comment +</p>}
-        {!feedPreview && (
+      {feedPreview ? (
+        <Link to={`/post/${post.id}`}>{PostDiv(post)}</Link>
+      ) : (
+        PostDiv(post)
+      )}
+      {!feedPreview && (
+        <>
+          <p className="add-comment">Add a comment +</p>
           <div className="comments">
             {comments &&
               comments.map((comment) => (
@@ -138,8 +148,8 @@ function Post({ thisPost, feedPreview }) {
                 </div>
               ))}
           </div>
-        )}
-      </Link>
+        </>
+      )}
     </div>
   );
 }
