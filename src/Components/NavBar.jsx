@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 function NavBar() {
   return (
     <nav>
-      <h1>Devmons!</h1>
+      <h1>
+        <Link to="/">Devmons!</Link>
+      </h1>
       <ul className="nav-list">
         <Link to="/">
           <li className="nav-item">Home</li>
