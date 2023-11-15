@@ -1,0 +1,12 @@
+#banner {
+  color: var(--accent-light);
+  background-color: var(--accent);
+
+  text-align: center;
+
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+
+  padding: 0.2rem;
+}

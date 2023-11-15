@@ -8,6 +8,8 @@ import PostPage from "./Components/PostPage";
 import * as masterball_img from "./assets/masterball.png";
 import SignUp from "./Components/SignUp";
 import ProfilePage from "./Components/ProfilePage";
+import LoginPage from "./Components/LoginPage";
+import Banner from "./Components/Banner";
 
 function App() {
   return (
@@ -16,11 +18,14 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<WelcomePage />} />
-          <Route path="/profile" element={<SignUp />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/users/:username" element={<ProfilePage />} />
+          {/* <Route path="/users/:username" element={<ProfilePage />} /> */}
           <Route path="/post/:id" element={<PostPage />} />
         </Routes>
+        <Banner />
       </Router>
     </>
   );

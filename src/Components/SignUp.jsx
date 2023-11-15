@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
 import supabase from "../client";
+import { validateSession } from "../client";
 import "./SignUp.css";
 
 import char_one_head from "../assets/char_one_head.png";
@@ -38,6 +39,16 @@ function SignUp() {
   const USERNAME_ERROR = "Username must be between 3 and 16 characters";
 
   const USERNAME_TAKEN_ERROR = "Username is already taken";
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const data = await validateSession();
+      if (data) {
+        window.location.href = `/profile`;
+      }
+    };
+    getCurrentUser();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -84,7 +95,7 @@ function SignUp() {
         "currentUser",
         JSON.stringify({ username, password: hashedPassword })
       );
-      window.location.href = `/users/${username}`;
+      window.location.href = `/profile`;
     };
 
     insertUser();
