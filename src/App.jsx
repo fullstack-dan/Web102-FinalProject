@@ -6,6 +6,8 @@ import Post from "./Components/Post";
 import Feed from "./Components/Feed";
 import PostPage from "./Components/PostPage";
 import * as masterball_img from "./assets/masterball.png";
+import SignUp from "./Components/SignUp";
+import ProfilePage from "./Components/ProfilePage";
 
 function App() {
   return (
@@ -14,7 +16,9 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<WelcomePage />} />
+          <Route path="/profile" element={<SignUp />} />
           <Route path="/feed" element={<Feed />} />
+          <Route path="/users/:username" element={<ProfilePage />} />
           <Route path="/post/:id" element={<PostPage />} />
         </Routes>
       </Router>

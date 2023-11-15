@@ -10,6 +10,8 @@ import char_three_head from "../assets/char_three_head.png";
 import char_four_head from "../assets/char_four_head.png";
 import char_five_head from "../assets/char_five_head.png";
 import char_six_head from "../assets/char_six_head.png";
+import char_seven_head from "../assets/char_seven_head.png";
+import char_eight_head from "../assets/char_eight_head.png";
 
 const icons = {
   one: char_one_head,
@@ -18,6 +20,8 @@ const icons = {
   four: char_four_head,
   five: char_five_head,
   six: char_six_head,
+  seven: char_seven_head,
+  eight: char_eight_head,
 };
 
 function Post({ thisPost, feedPreview }) {

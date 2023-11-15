@@ -15,7 +15,9 @@ function NavBar() {
         <Link to="/feed">
           <li className="nav-item">Posts</li>
         </Link>
-        <li className="nav-item">Profile</li>
+        <Link to="/profile">
+          <li className="nav-item">Profile</li>
+        </Link>
       </ul>
     </nav>
   );
