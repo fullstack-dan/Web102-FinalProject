@@ -104,3 +104,24 @@
   cursor: pointer;
   border: 2px solid var(--highlight);
 }
+
+.add-comment-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-comment-form textarea {
+  resize: none;
+  border: 1px solid var(--accent);
+  border-top: none;
+  padding: 0.5rem;
+
+  background-color: var(--accent);
+  color: var(--accent-light);
+
+  font: inherit;
+}
+
+.add-comment-form textarea::placeholder {
+  color: var(--accent-light);
+}

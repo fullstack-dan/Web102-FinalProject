@@ -24,6 +24,24 @@ const icons = {
   eight: char_eight_head,
 };
 
+const getDate = (timestamp) => {
+  const date = new Date(timestamp);
+  const today = new Date();
+  let normalizedDate = "";
+  if (
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear()
+  ) {
+    normalizedDate = `Today at ${date.getHours()}:${date.getMinutes()}`;
+  } else {
+    normalizedDate = `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+  }
+  return normalizedDate;
+};
+
 function Post({ thisPost, feedPreview }) {
   const [post, setPost] = useState(thisPost);
   const [author, setAuthor] = useState({
@@ -32,6 +50,7 @@ function Post({ thisPost, feedPreview }) {
   });
   const [displayContent, setDisplayContent] = useState("");
   const [comments, setComments] = useState(null);
+  const [addComment, setAddComment] = useState(false);
 
   useEffect(() => {
     const getComments = async () => {
@@ -56,24 +75,6 @@ function Post({ thisPost, feedPreview }) {
     getAuthor();
   }, [post]);
 
-  const getDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const today = new Date();
-    let normalizedDate = "";
-    if (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    ) {
-      normalizedDate = `Today at ${date.getHours()}:${date.getMinutes()}`;
-    } else {
-      normalizedDate = `${date.getDate()}/${
-        date.getMonth() + 1
-      }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-    }
-    return normalizedDate;
-  };
-
   useEffect(() => {
     if (feedPreview) {
       setDisplayContent(post.content.slice(0, 200) + "...");
@@ -88,7 +89,7 @@ function Post({ thisPost, feedPreview }) {
     const handlePostUpvote = async () => {
       const { data, error } = await supabase
         .from("posts")
-        .update({ likes: post.likes + 1 })
+        .update({ likes: likes + 1 })
         .eq("id", post.id);
       if (error) {
         console.log(error);
@@ -138,7 +139,7 @@ function Post({ thisPost, feedPreview }) {
     const handleCommentUpvote = async () => {
       const { data, error } = await supabase
         .from("comments")
-        .update({ likes: comment.likes + 1 })
+        .update({ likes: likes + 1 })
         .eq("id", comment.id);
 
       if (error) {
@@ -172,6 +173,54 @@ function Post({ thisPost, feedPreview }) {
     );
   };
 
+  const AddCommentForm = () => {
+    const [comment, setComment] = useState("");
+
+    const updateComment = (e) => {
+      setComment(e.target.value);
+    };
+
+    const handleAddComment = async () => {
+      const currentUser = localStorage.getItem("currentUser");
+      const username = JSON.parse(currentUser).username;
+      const { data, error } = await supabase
+        .from("comments")
+        .insert([
+          {
+            content: comment,
+            post_id: post.id,
+            author: username,
+          },
+        ])
+        .select();
+      if (error) {
+        console.log(error);
+      }
+      setComment("");
+      setAddComment(false);
+      updateComments(data[0]);
+    };
+
+    return (
+      <div className="add-comment-form">
+        <textarea
+          name="comment"
+          id="comment"
+          cols="30"
+          rows="10"
+          placeholder="Add a comment..."
+          onChange={updateComment}
+          maxLength={200}
+        ></textarea>
+        <button onClick={handleAddComment}>Post</button>
+      </div>
+    );
+  };
+
+  const updateComments = (newComment) => {
+    setComments([...comments, newComment]);
+  };
+
   return (
     <div
       className={feedPreview ? "post-preview post-container" : "post-container"}
@@ -181,7 +230,10 @@ function Post({ thisPost, feedPreview }) {
       ) : (
         <>
           {PostDiv(post)}
-          <p className="add-comment">Add a comment +</p>
+          <p className="add-comment" onClick={() => setAddComment(!addComment)}>
+            Add a comment +
+          </p>
+          {addComment && <AddCommentForm />}
           <div className="comments">
             {comments &&
               comments.map((comment) => (

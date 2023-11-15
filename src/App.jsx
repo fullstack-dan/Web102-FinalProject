@@ -39,7 +39,9 @@ function WelcomePage() {
         <h1>Welcome to devmons!</h1>
         <div>Made with love, inspired by Pokemon Emerald.</div>
       </div>
-      <button>Join Devmons!</button>
+      <Link to="/signup">
+        <button>Join Devmons!</button>
+      </Link>
     </div>
   );
 }
