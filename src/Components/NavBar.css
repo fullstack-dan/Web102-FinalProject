@@ -1,0 +1,35 @@
+nav {
+  font-family: "Joystix", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 3rem;
+
+  padding: 0 1rem;
+
+  /* border: 2px solid var(--accent); */
+  margin-bottom: 1rem;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+
+  gap: 1rem;
+}
+
+.nav-item {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
+.nav-item:hover {
+  color: var(--highlight);
+
+  cursor: pointer;
+
+  /* border: 1px solid #e1fff6; */
+}

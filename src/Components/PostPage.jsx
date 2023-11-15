@@ -1,11 +1,7 @@
+import { useParams } from "react-router-dom";
+import Post from "./Post";
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
-import NavBar from "./Components/NavBar";
-import Post from "./Components/Post";
-import Feed from "./Components/Feed";
-import PostPage from "./Components/PostPage";
-import supabase from "./client";
+import supabase from "../client";
 
 const examplePosts = [
   {
@@ -79,41 +75,22 @@ const examplePosts = [
   },
 ];
 
-function App() {
-  const [count, setCount] = useState(0);
+const PostPage = () => {
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
 
-  function WelcomePage() {
-    return (
-      <div id="welcome-page" className="fade-in">
-        <img
-          src="src/assets/masterball.png"
-          alt=""
-          style={{
-            width: "40px",
-            height: "40px",
-          }}
-        />
-        <div>
-          <h1>Welcome to devmons!</h1>
-          <div>Made with love, inspired by Pokemon Emerald.</div>
-        </div>
-        <button>Join Devmons!</button>
-      </div>
-    );
-  }
+  useEffect(() => {
+    const getPost = async () => {
+      const { data } = await supabase
+        .from("posts")
+        .select("*")
+        .filter("id", "eq", id);
+      setPost(data[0]);
+    };
+    getPost();
+  }, [id]);
 
-  return (
-    <>
-      <Router>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<WelcomePage />} />
-          <Route path="/feed" element={<Feed />} />
-          <Route path="/post/:id" element={<PostPage />} />
-        </Routes>
-      </Router>
-    </>
-  );
-}
+  return <>{post && <Post thisPost={post} feedPreview={false} />}</>;
+};
 
-export default App;
+export default PostPage;
