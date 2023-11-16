@@ -42,6 +42,13 @@ const getDate = (timestamp) => {
   return normalizedDate;
 };
 
+const sortComments = (comments) => {
+  const sortedComments = comments.sort((a, b) => {
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
+  return sortedComments;
+};
+
 function Post({ thisPost, feedPreview }) {
   const [post, setPost] = useState(thisPost);
   const [author, setAuthor] = useState({
@@ -58,7 +65,7 @@ function Post({ thisPost, feedPreview }) {
         .from("comments")
         .select("*")
         .filter("post_id", "eq", post.id);
-      setComments(data);
+      setComments(sortComments(data));
     };
     getComments();
 
@@ -83,7 +90,7 @@ function Post({ thisPost, feedPreview }) {
     }
   }, [post, feedPreview]);
 
-  const PostDiv = (post) => {
+  const PostDiv = ({ post }) => {
     const [likes, setLikes] = useState(post.likes);
 
     const handlePostUpvote = async () => {
@@ -218,7 +225,7 @@ function Post({ thisPost, feedPreview }) {
   };
 
   const updateComments = (newComment) => {
-    setComments([...comments, newComment]);
+    setComments(sortComments([...comments, newComment]));
   };
 
   return (
@@ -226,10 +233,10 @@ function Post({ thisPost, feedPreview }) {
       className={feedPreview ? "post-preview post-container" : "post-container"}
     >
       {feedPreview ? (
-        <Link to={`/post/${post.id}`}>{PostDiv(post)}</Link>
+        <Link to={`/post/${post.id}`}>{<PostDiv post={post} />}</Link>
       ) : (
         <>
-          {PostDiv(post)}
+          {<PostDiv post={post} />}
           <p className="add-comment" onClick={() => setAddComment(!addComment)}>
             Add a comment +
           </p>
