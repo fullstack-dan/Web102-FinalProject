@@ -82,10 +82,10 @@ input[type="password"] {
 }
 
 .avatar img {
-  width: 6rem;
+  width: 5rem;
 }
 
 .error {
-  color: red;
+  color: var(--custom-red);
   font-size: 0.8rem;
 }

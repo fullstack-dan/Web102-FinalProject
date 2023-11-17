@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./SignUp.css";
 import supabase from "../client";
 import CryptoJS from "crypto-js";
+import { Link } from "react-router-dom";
 
 import { validateSession } from "../client";
 
@@ -63,8 +64,8 @@ function LoginPage() {
         <br />
         <button type="submit">Log In</button>
       </form>
-      <button onClick={() => (window.location.href = "/signup")}>
-        Create a new account
+      <button>
+        <Link to="/signup">Create a new account</Link>
       </button>
     </div>
   );
