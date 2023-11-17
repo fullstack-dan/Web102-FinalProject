@@ -35,7 +35,7 @@ function WelcomePage() {
     <div id="welcome-page" className="">
       <img src={masterball_img.default} alt="" />
       <div>
-        <h1>Welcome to devmons!</h1>
+        <h1>Welcome to Devmons!</h1>
         <div>Made with love, inspired by Pokemon Emerald.</div>
       </div>
       <Link to="/signup">
