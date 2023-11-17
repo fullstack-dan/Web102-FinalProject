@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
 import supabase from "../client";
 import { validateSession } from "../client";
+import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 import char_one_head from "../assets/char_one_head.png";
@@ -32,6 +33,8 @@ function SignUp() {
 
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+  const navigate = useNavigate();
 
   const PASSWORD_ERROR =
     "Password must be between 8 and 48 characters and contain at least one lowercase letter, one uppercase letter, one number, and one special character";
@@ -90,12 +93,11 @@ function SignUp() {
         console.log(error);
         return;
       }
-      console.log(data);
       localStorage.setItem(
         "currentUser",
         JSON.stringify({ username, password: hashedPassword })
       );
-      window.location.href = `/profile`;
+      navigate("/profile");
     };
 
     insertUser();

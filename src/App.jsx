@@ -24,7 +24,7 @@ function App() {
           <Route path="/feed" element={<Feed />} />
           <Route path="/post/:id" element={<PostPage />} />
         </Routes>
-        <Banner />
+        {/* <Banner /> */}
       </Router>
     </>
   );
@@ -32,7 +32,7 @@ function App() {
 
 function WelcomePage() {
   return (
-    <div id="welcome-page" className="fade-in">
+    <div id="welcome-page" className="">
       <img src={masterball_img.default} alt="" />
       <div>
         <h1>Welcome to devmons!</h1>

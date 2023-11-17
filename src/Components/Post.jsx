@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Post.css";
 import supabase from "../client";
 import { validateSession } from "../client";
@@ -51,6 +51,8 @@ const sortComments = (comments) => {
 };
 
 function Post({ thisPost, feedPreview }) {
+  const navigate = useNavigate();
+
   const [post, setPost] = useState(thisPost);
   const [author, setAuthor] = useState({
     username: "",
@@ -87,7 +89,7 @@ function Post({ thisPost, feedPreview }) {
     if (feedPreview) {
       setDisplayContent(post.content.slice(0, 200));
       if (post.content.length > 200) {
-        setDisplayContent(displayContent + "...");
+        setDisplayContent(post.content.slice(0, 200) + "...");
       }
     } else {
       setDisplayContent(post.content);
@@ -140,7 +142,7 @@ function Post({ thisPost, feedPreview }) {
       if (commentsError) {
         console.log(commentsError);
       }
-      window.location = "/feed";
+      navigate("/feed");
     };
 
     const handleEditPost = async () => {

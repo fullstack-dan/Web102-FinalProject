@@ -12,8 +12,15 @@
 
 .add-post {
   width: max-content;
+  cursor: pointer;
+  border: 2px solid var(--accent);
 
   gap: 0.5rem;
+}
+
+.add-post:hover {
+  border: 2px solid var(--highlight);
+  color: var(--highlight);
 }
 
 .feed-container {

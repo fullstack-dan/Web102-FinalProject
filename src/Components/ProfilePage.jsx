@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import supabase from "../client";
 import { validateSession } from "../client";
 import "./ProfilePage.css";
+import { useNavigate } from "react-router-dom";
 
 import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
@@ -29,11 +30,14 @@ const icons = {
 
 function ProfilePage() {
   const [user, setUser] = useState(null);
+  const Navigate = useNavigate();
 
   const getCurrentUser = async () => {
     const data = await validateSession();
     if (data) {
       setUser(data);
+    } else {
+      Navigate("/login");
     }
   };
   useEffect(() => {
@@ -45,7 +49,7 @@ function ProfilePage() {
 
     const handleLogout = () => {
       localStorage.removeItem("currentUser");
-      window.location.href = "/profile";
+      Navigate("/login");
     };
 
     const handleChangeIcon = () => {

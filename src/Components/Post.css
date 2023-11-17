@@ -71,6 +71,7 @@
 .upvote {
   font-size: 1.5rem;
   width: fit-content;
+  user-select: none;
 }
 
 .upvote:hover {

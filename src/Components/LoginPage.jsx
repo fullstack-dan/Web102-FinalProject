@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import "./SignUp.css";
 import supabase from "../client";
 import CryptoJS from "crypto-js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { validateSession } from "../client";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -34,12 +37,12 @@ function LoginPage() {
         return;
       }
       const hashedPassword = CryptoJS.SHA256(password).toString();
-      if (data[0].password !== hashedPassword) {
-        alert("Incorrect password");
+      if (data.length === 0 || data[0].password !== hashedPassword) {
+        setLoginError("Incorrect username or password");
         return;
       }
       localStorage.setItem("currentUser", JSON.stringify(data[0]));
-      window.location.href = "/profile";
+      navigate("/profile");
     };
     getUser();
   };
@@ -48,21 +51,27 @@ function LoginPage() {
     <div className="sign-up">
       <h1>Log in to Devmons!</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={handleUsernameChange} />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </label>
-        <br />
-        <button type="submit">Log In</button>
+        <div>
+          <label>
+            Username:
+            <input
+              type="text"
+              value={username}
+              onChange={handleUsernameChange}
+            />
+          </label>
+          <br />
+          <label>
+            Password:
+            <input
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </label>
+        </div>
+        {loginError && <div className="error">{loginError}</div>}
+        <button type="submit">Log in</button>
       </form>
       <button>
         <Link to="/signup">Create a new account</Link>
