@@ -6,6 +6,8 @@ This web app: **is a forum for Pokemon Trainers in the Hoenn region! Post about 
 
 Time spent: **10** hours spent in total
 
+Deployed on [Netlify](https://tangerine-chebakia-080a0d.netlify.app/)
+
 ## Required Features
 
 The following **required** functionality is completed:
