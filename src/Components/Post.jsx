@@ -85,7 +85,10 @@ function Post({ thisPost, feedPreview }) {
 
   useEffect(() => {
     if (feedPreview) {
-      setDisplayContent(post.content.slice(0, 200) + "...");
+      setDisplayContent(post.content.slice(0, 200));
+      if (post.content.length > 200) {
+        setDisplayContent(displayContent + "...");
+      }
     } else {
       setDisplayContent(post.content);
     }
@@ -93,6 +96,16 @@ function Post({ thisPost, feedPreview }) {
 
   const PostDiv = ({ post }) => {
     const [likes, setLikes] = useState(post.likes);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [editPost, setEditPost] = useState(false);
+    const [editedPost, setEditedPost] = useState(post);
+
+    useEffect(() => {
+      const currUser = localStorage.getItem("currentUser");
+      if (currUser) {
+        setCurrentUser(JSON.parse(currUser));
+      }
+    }, []);
 
     const handlePostUpvote = async () => {
       const { data, error } = await supabase
@@ -105,6 +118,47 @@ function Post({ thisPost, feedPreview }) {
       setLikes(likes + 1);
     };
 
+    const handleDeletePost = async () => {
+      const validSession = await validateSession();
+      if (!validSession) {
+        alert("An error occured");
+        localStorage.removeItem("currentUser");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("posts")
+        .delete()
+        .eq("id", post.id);
+      if (error) {
+        console.log(error);
+      }
+      const { data: commentsData, error: commentsError } = await supabase
+        .from("comments")
+        .delete()
+        .eq("post_id", post.id);
+      if (commentsError) {
+        console.log(commentsError);
+      }
+      window.location = "/feed";
+    };
+
+    const handleEditPost = async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .update({ title: editedPost.title, content: editedPost.content })
+        .eq("id", post.id);
+      if (error) {
+        console.log(error);
+      }
+      setPost({
+        ...post,
+        title: editedPost.title,
+        content: editedPost.content,
+      });
+      setEditPost(false);
+    };
+
     return (
       <div className="post">
         <div className="user-info">
@@ -115,14 +169,59 @@ function Post({ thisPost, feedPreview }) {
           </div>
         </div>
         <div className="post-text-info">
-          <h2 className="post-title">{post.title}</h2>
-          <p className="post-content">{displayContent}</p>
+          {editPost ? (
+            <input
+              name="title"
+              id="title"
+              value={editedPost.title}
+              onChange={(e) =>
+                setEditedPost({ ...editedPost, title: e.target.value })
+              }
+            ></input>
+          ) : (
+            <h2 className="post-title">{post.title}</h2>
+          )}
+          {editPost ? (
+            <textarea
+              name="content"
+              id="content"
+              cols="30"
+              rows="10"
+              value={editedPost.content}
+              onChange={(e) =>
+                setEditedPost({ ...editedPost, content: e.target.value })
+              }
+            ></textarea>
+          ) : (
+            <p className="post-content">{displayContent}</p>
+          )}
         </div>
         <div className="likes">
           <span>{likes}</span>
           <div className="upvote" onClick={handlePostUpvote}>
             ♡
           </div>
+          {!feedPreview &&
+          currentUser &&
+          currentUser.username == post.author ? (
+            <>
+              <div
+                className="delete-button"
+                title="Delete Post"
+                onClick={handleDeletePost}
+              >
+                ⊗
+              </div>
+              <div className="edit-post" onClick={() => setEditPost(!editPost)}>
+                ...
+              </div>
+            </>
+          ) : null}
+          {editPost ? (
+            <div className="edit-post" onClick={handleEditPost}>
+              ✔
+            </div>
+          ) : null}
         </div>
       </div>
     );
@@ -132,7 +231,7 @@ function Post({ thisPost, feedPreview }) {
     const [icon, setIcon] = useState("");
     const [likes, setLikes] = useState(comment.likes);
     const currentUser = localStorage.getItem("currentUser");
-    if (currentUser) {
+    if (currentUser && validateSession()) {
       var username = JSON.parse(currentUser).username;
     }
 
@@ -198,7 +297,7 @@ function Post({ thisPost, feedPreview }) {
             </div>
             {username && username == comment.author ? (
               <div
-                className="delete-comment"
+                className="delete-button"
                 title="Delete Comment"
                 onClick={handleDeleteComment}
               >

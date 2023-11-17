@@ -11,7 +11,6 @@ function NavBar() {
         <Link to="/">
           <li className="nav-item">Home</li>
         </Link>
-        <li className="nav-item">About</li>
         <Link to="/feed">
           <li className="nav-item">Posts</li>
         </Link>

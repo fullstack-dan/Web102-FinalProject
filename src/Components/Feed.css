@@ -23,3 +23,121 @@
 .feed-container:last-child {
   border-bottom: 1px solid var(--accent);
 }
+
+.add-post-form p {
+  color: var(--custom-red);
+}
+
+.add-post-form {
+  display: flex;
+  flex-direction: column;
+
+  width: 40rem;
+}
+
+.add-post-form textarea {
+  resize: none;
+  border: 1px solid var(--accent);
+  border-top: none;
+  padding: 0.5rem;
+
+  height: 10rem;
+
+  background-color: var(--accent);
+  color: var(--accent-light);
+
+  font: inherit;
+}
+
+.add-post-form input {
+  border: 1px solid var(--accent);
+  border-top: none;
+  padding: 0.5rem;
+
+  background-color: var(--accent);
+  color: var(--accent-light);
+
+  font: inherit;
+}
+
+.add-post-form * {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.add-post-form textarea::placeholder,
+.add-post-form input::placeholder {
+  color: var(--accent-light);
+}
+
+.feed-controls {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid var(--accent);
+  border-bottom: none;
+
+  height: 4rem;
+}
+
+.feed-controls div {
+  padding: 0.5rem;
+}
+
+.search-controls {
+  display: flex;
+  align-items: center;
+}
+
+.search-button {
+  cursor: pointer;
+}
+
+.search-bar {
+  display: flex;
+}
+
+.search-bar div {
+  cursor: pointer;
+}
+
+.search-bar input {
+  border: 1px solid var(--accent);
+  border-top: none;
+  border-bottom: none;
+  padding: 0.5rem;
+
+  background-color: var(--accent);
+  color: var(--accent-light);
+
+  font: inherit;
+}
+
+.search-bar input::placeholder {
+  color: var(--accent-light);
+}
+
+.search-bar input:focus {
+  outline: none;
+}
+
+.search-bar div:hover {
+  color: var(--highlight);
+}
+
+.sort-controls {
+  display: flex;
+}
+
+.sort-controls div {
+  cursor: pointer;
+}
+.sort-controls div:hover {
+  color: var(--highlight);
+}
+
+.reset {
+  cursor: pointer;
+}

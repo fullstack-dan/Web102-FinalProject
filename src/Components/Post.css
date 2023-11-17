@@ -132,8 +132,46 @@
   color: var(--accent-light);
 }
 
-.delete-comment {
+.delete-button {
   font-size: 1.5rem;
   cursor: pointer;
   color: var(--custom-red);
+}
+
+.edit-post {
+  font-size: 1.5rem;
+  cursor: pointer;
+  /* color: var(--highlight); */
+}
+
+.post-text-info input {
+  box-sizing: border-box;
+
+  width: 100%;
+
+  border: 1px solid var(--accent);
+  border-top: none;
+  padding: 0.5rem;
+
+  background-color: var(--accent);
+  color: var(--accent-light);
+
+  font: inherit;
+}
+
+.post-text-info textarea {
+  box-sizing: border-box;
+
+  resize: none;
+  width: 100%;
+  border: 1px solid var(--accent);
+  border-top: none;
+  padding: 0.5rem;
+
+  background-color: var(--accent);
+  color: var(--accent-light);
+
+  font: inherit;
+
+  margin-bottom: 0.5rem;
 }
