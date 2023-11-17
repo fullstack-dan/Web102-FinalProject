@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Post.css";
 import supabase from "../client";
+import { validateSession } from "../client";
 
 import char_one_head from "../assets/char_one_head.png";
 import char_two_head from "../assets/char_two_head.png";
@@ -130,6 +131,10 @@ function Post({ thisPost, feedPreview }) {
   const Comment = ({ comment }) => {
     const [icon, setIcon] = useState("");
     const [likes, setLikes] = useState(comment.likes);
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      var username = JSON.parse(currentUser).username;
+    }
 
     useEffect(() => {
       const getIcon = async (author) => {
@@ -156,6 +161,23 @@ function Post({ thisPost, feedPreview }) {
       }
     };
 
+    const handleDeleteComment = async () => {
+      const { data, error } = await supabase
+        .from("comments")
+        .delete()
+        .eq("id", comment.id);
+
+      if (error) {
+        console.log(error);
+      } else {
+        const { data, error } = await supabase
+          .from("comments")
+          .select("*")
+          .filter("post_id", "eq", post.id);
+        setComments(sortComments(data));
+      }
+    };
+
     return (
       <div className="comments">
         <div className="comment" key={comment.id}>
@@ -174,6 +196,15 @@ function Post({ thisPost, feedPreview }) {
             <div className="upvote" onClick={handleCommentUpvote}>
               ♡
             </div>
+            {username && username == comment.author ? (
+              <div
+                className="delete-comment"
+                title="Delete Comment"
+                onClick={handleDeleteComment}
+              >
+                ⊗
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -182,6 +213,24 @@ function Post({ thisPost, feedPreview }) {
 
   const AddCommentForm = () => {
     const [comment, setComment] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+    useEffect(() => {
+      const checkSession = async () => {
+        const validSession = await validateSession();
+        setIsLoggedIn(validSession);
+      };
+
+      checkSession();
+    }, []);
+
+    if (!isLoggedIn) {
+      return (
+        <div className="add-comment-form">
+          <p>You must be logged in to comment!</p>
+        </div>
+      );
+    }
 
     const updateComment = (e) => {
       setComment(e.target.value);

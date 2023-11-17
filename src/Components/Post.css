@@ -108,6 +108,12 @@
 .add-comment-form {
   display: flex;
   flex-direction: column;
+
+  text-align: center;
+}
+
+.add-comment-form p {
+  color: var(--custom-red);
 }
 
 .add-comment-form textarea {
@@ -124,4 +130,10 @@
 
 .add-comment-form textarea::placeholder {
   color: var(--accent-light);
+}
+
+.delete-comment {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--custom-red);
 }
