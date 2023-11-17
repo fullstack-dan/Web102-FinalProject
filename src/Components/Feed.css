@@ -32,6 +32,7 @@
 }
 
 .add-post-form p {
+  text-align: center;
   color: var(--custom-red);
 }
 

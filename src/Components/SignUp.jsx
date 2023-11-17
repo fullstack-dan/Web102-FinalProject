@@ -47,7 +47,7 @@ function SignUp() {
     const getCurrentUser = async () => {
       const data = await validateSession();
       if (data) {
-        window.location.href = `/profile`;
+        navigate("/profile");
       }
     };
     getCurrentUser();
