@@ -43,11 +43,13 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://cdn.discordapp.com/attachments/892911282225836102/1175205010150269019/finalProj.gif?ex=656a61f4&is=6557ecf4&hm=d81126945c21c232b88008b4076e144fdc65411de7599697de3974fe9320c7c4&' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+Also available here: https://drive.google.com/file/d/1i0IVm6juOT-mJIFc_nlj2IHHEEScssy_/view?usp=sharing
 
 <!-- Replace this with whatever GIF tool you used! -->
 
-GIF created with ...
+GIF created with MacOS native screen recorder
 
 <!-- Recommended tools:
 [Kap](https://getkap.co/) for macOS
